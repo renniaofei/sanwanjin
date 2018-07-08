@@ -15,7 +15,8 @@
   "dependencies": {
     "element-ui": "^2.4.3",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "zhihu-particle": "0.0.9"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
