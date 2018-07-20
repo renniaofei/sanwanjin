@@ -4,30 +4,60 @@
             <h2>三万金-登录</h2>
             <el-input v-model="account" class="account" placeholder="请输入账号"></el-input>
             <el-input v-model="password" type='password' class="password" placeholder="请输入密码"></el-input>
-            <el-button type="primary" class="login-btn" style="width:100%">登录</el-button>
+            <el-button type="primary" class="login-btn" @click="submit" style="width:100%">登录</el-button>
             <br>
             <el-button style="width:100%">注册</el-button>
         </div>
     </div>
 </template>
 <script>
+import { userLogin } from "@/api/index";
 export default {
-    data(){
-        return{
-            account:'',
-            password:'',
+  data() {
+    return {
+      account: "",
+      password: ""
+    };
+  },
+  mounted() {},
+  methods: {
+    submit() {
+      console.log(this.account, this.password);
+      this.login();
+    },
+    login() {
+      let params = {
+        user: this.account,
+        password: this.password
+      };
+      userLogin(params).then(res => {
+        console.log(params);
+        if (res.code === 100) {
+          this.$message({
+            message: "登录成功",
+            type: "success"
+          });
+        //   this.$rounter.push("/");
+          this.$router.push('/')
+        } else if (res.code === 110) {
+          this.$message.error("账号被禁用");
+        } else if (res.code == 111) {
+          this.$message.error("用户名或密码错误");
         }
+      });
     }
-}
+  }
+};
 </script>
 
 <style scoped>
-.login-content{
-   width: 400px;
-   margin: 100px auto 0;
+.login-content {
+  width: 400px;
+  margin: 100px auto 0;
 }
-.account,.password,.login-btn{
-margin-bottom: 20px;
-}    
-
+.account,
+.password,
+.login-btn {
+  margin-bottom: 20px;
+}
 </style>
