@@ -1,7 +1,6 @@
 <template>
     <div class="index"  ref="index">
       <div class="particle" ref="particle"></div>
-      
         <my-menu ></my-menu>
         <div class="index-content">
         <div class="downInput">
