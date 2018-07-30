@@ -11,7 +11,8 @@
     </div>
 </template>
 <script>
-import { userLogin } from "@/api/index";
+import { userLogin } from "@/api/index"
+import {setCookie} from "@/untils/untils";
 export default {
   data() {
     return {
@@ -31,13 +32,12 @@ export default {
         password: this.password
       };
       userLogin(params).then(res => {
-        console.log(params);
         if (res.code === 100) {
+          setCookie('token',res.data.token);
           this.$message({
             message: "登录成功",
             type: "success"
           });
-        //   this.$rounter.push("/");
           this.$router.push('/')
         } else if (res.code === 110) {
           this.$message.error("账号被禁用");

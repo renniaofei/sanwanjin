@@ -9,6 +9,14 @@ export const userLogin = (params) => {
 export const loginOut = (params) => {
   return http.fetchPost(`${baseUrl}/users/loginOut`, params)
 }
+// 包图网下载信息
+export const btwDownInfo = (params) => {
+  return http.fetchPost(`${baseUrl}/btw/getDownInfo`, params)
+}
+// 包图网下载
+export const btwDownLoad = (params) => {
+  return http.fetchPost(`${baseUrl}/btw/getDownload`, params)
+}
 // 用户信息
 export const userInfo = (params) => {
   return http.fetchPost(`${baseUrl}/users/userInfo`, params)
