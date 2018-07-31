@@ -1,6 +1,5 @@
 <template>
     <div class="index"  ref="index">
-     
         <my-menu :userInfoDatas='userInfoDatas'></my-menu>
         <div class="index-content">
         <div class="downInput">
@@ -15,6 +14,11 @@
             type="warning">
         </el-alert>
         <br> -->
+        <div class="userInfro">
+          <ul>
+            <li><span>网站：<strong>包图网</strong></span><span>类型：<strong>{{userInfoDatas.btwType}}</strong></span><span>已使用：<strong>{{userInfoDatas.btwNums}}次</strong></span><span>到期时间：<strong>{{userInfoDatas.btwDeadline}}</strong></span></li>
+          </ul>
+        </div>
         <el-input v-model="downInput" class="fl el-input"   placeholder="请输入下载链接"></el-input>  <el-button class="fl"  @click="getDownInfo" :loading="false"  type="primary">点击下载</el-button>
         </div>
         <div class="downInfo-wrap" v-if="downInfo.title">
@@ -141,7 +145,15 @@ export default {
 .downInfo-wrap{
   text-align: left;
 }
-
+.userInfro ul li span{
+  margin-right: 20px;
+  font-size: 14px;
+  color: #1e1e1e;
+}
+.userInfro ul li{
+  text-align: left;
+  margin-bottom: 10px;
+}
 .menu ul{
   width: 1000px;
 }

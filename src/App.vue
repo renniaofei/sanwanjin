@@ -18,8 +18,7 @@ export default {
   right: 0;
   bottom: 0;
   height: 100%;
-  /* background: url(./pages/img/HallstattAustria_PT-BR9407016733_1920x1080.jpg)
-    no-repeat; */
+
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

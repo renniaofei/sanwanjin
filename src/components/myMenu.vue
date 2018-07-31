@@ -1,8 +1,8 @@
 <template>
   <div class="myMenu">
-    <el-menu  :default-active="activeIndex" class="menu-content" mode="horizontal">
+    <el-menu  :default-active="activeIndex"  class="menu-content" mode="horizontal">
   <el-menu-item index="1">首页</el-menu-item>
-   <el-menu-item index="2">帮助</el-menu-item>
+   <el-menu-item index="2" >帮助</el-menu-item>
     <el-menu-item index="3">充值</el-menu-item>
      <el-menu-item index="4">邀请</el-menu-item>
      <el-menu-item index="5">客服</el-menu-item>
@@ -12,9 +12,8 @@
     </span>
     <span class="logout" @click="logout">退出</span>
      </div>
-
 </el-menu>
-
+   
   </div>
 </template>
 <script>
@@ -25,7 +24,8 @@ export default {
   data() {
     return {
       activeIndex: "1",
-      activeIndex2: "1"
+      activeIndex2: "1",
+
     };
   },
   mounted() {

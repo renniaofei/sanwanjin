@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import index from '@/pages/index'
 import login from '@/pages/login/login'
 import reg from '@/pages/login/reg'
+import help from '@/pages/help'
 Vue.use(Router)
 export default new Router({
   routes: [
@@ -20,6 +21,11 @@ export default new Router({
       path: '/reg',
       name: 'reg',
       component: reg
+    },
+    {
+      path: '/help',
+      name: 'help',
+      component: help
     },
   ]
 })
