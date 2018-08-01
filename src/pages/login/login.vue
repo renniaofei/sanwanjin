@@ -55,6 +55,7 @@ export default {
   width: 400px;
   margin: 100px auto 0;
 }
+
 .account,
 .password,
 .login-btn {

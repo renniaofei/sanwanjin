@@ -1,18 +1,19 @@
 <template>
   <div class="myMenu">
-    <el-menu  :default-active="activeIndex"  class="menu-content" mode="horizontal">
-  <el-menu-item index="1">首页</el-menu-item>
-   <el-menu-item index="2" >帮助</el-menu-item>
-    <el-menu-item index="3">充值</el-menu-item>
-     <el-menu-item index="4">邀请</el-menu-item>
-     <el-menu-item index="5">客服</el-menu-item>
+    <ul>
+      <li>首页</li>
+      <li>帮助</li>
+      <li>充值</li>
+      <li>邀请</li>
+      <li>客服</li>
+    </ul>
      <div class="userName">
     <span class="">
      欢迎您 {{userInfoDatas.userId}}
     </span>
     <span class="logout" @click="logout">退出</span>
      </div>
-</el-menu>
+
    
   </div>
 </template>
@@ -54,21 +55,32 @@ export default {
 
 <style scoped>
 .myMenu{
-  border:1px solid #e6e6e6;
-  background: #fff;
+  width: 1000px;
+  margin: 0 auto;
+  /* border:1px solid #e6e6e6;
+  background: #fff; */
+}
+.myMenu ul li{
+  height: 30px;
+  line-height: 30px;
+  float: left;
+  margin-left: 10px;
+  color: #fff;
+}
+.myMenu ul{
+  float: left;
 }
 .logout{
   margin-left: 5px;
   color:red;
 }
 .userName{
-  position: absolute;
-  right: 10px;
-  top: 20px;
+  float: right;
+  color: #fff ;
   cursor: pointer;
 }
 .menu-content{
-   position: relative;
+    position: relative;
   width: 1000px;
   margin:0 auto;
 }

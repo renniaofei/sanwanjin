@@ -3,11 +3,11 @@
         <my-menu :userInfoDatas='userInfoDatas'></my-menu>
         <div class="index-content">
         <div class="downInput">
-      <el-alert
+      <!-- <el-alert
     title="三万金©平台目前支持包图网"
     type="success"
     :closable="false">
-  </el-alert>
+  </el-alert> -->
     <br>
         <!-- <el-alert
             title="警告提示的文案警告提示的文案警告提示的文案警告提示的文案警告提示的文案"
@@ -148,10 +148,11 @@ export default {
 .userInfro ul li span{
   margin-right: 20px;
   font-size: 14px;
-  color: #1e1e1e;
+  color: #fff;
 }
 .userInfro ul li{
   text-align: left;
+  color: #fff;
   margin-bottom: 10px;
 }
 .menu ul{
