@@ -41,7 +41,7 @@ export default {
           this.$router.push('/')
         } else if (res.code === 110) {
           this.$message.error("账号被禁用");
-        } else if (res.code == 111) {
+        } else if (res.code === 111) {
           this.$message.error("用户名或密码错误");
         }
       });

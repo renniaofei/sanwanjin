@@ -1,20 +1,18 @@
 <template>
-  <div class="myMenu">
-    <ul>
+  <div class="myMenu clearfix">
+    <ul class="clearfix">
       <li>首页</li>
       <li>帮助</li>
-      <li>充值</li>
+      <li>购买</li>
       <li>邀请</li>
       <li>客服</li>
     </ul>
-     <div class="userName">
+     <div class="userName ">
     <span class="">
      欢迎您 {{userInfoDatas.userId}}
     </span>
     <span class="logout" @click="logout">退出</span>
      </div>
-
-   
   </div>
 </template>
 <script>
@@ -57,15 +55,18 @@ export default {
 .myMenu{
   width: 1000px;
   margin: 0 auto;
+  height: 50px;
+  line-height: 50px;
   /* border:1px solid #e6e6e6;
   background: #fff; */
 }
 .myMenu ul li{
-  height: 30px;
-  line-height: 30px;
+  height: 50px;
+  line-height: 50px;
   float: left;
-  margin-left: 10px;
+  margin-right: 30px;
   color: #fff;
+  cursor: pointer;
 }
 .myMenu ul{
   float: left;

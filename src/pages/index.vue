@@ -3,23 +3,12 @@
         <my-menu :userInfoDatas='userInfoDatas'></my-menu>
         <div class="index-content">
         <div class="downInput">
-      <!-- <el-alert
-    title="三万金©平台目前支持包图网"
-    type="success"
-    :closable="false">
-  </el-alert> -->
-    <br>
-        <!-- <el-alert
-            title="警告提示的文案警告提示的文案警告提示的文案警告提示的文案警告提示的文案"
-            type="warning">
-        </el-alert>
-        <br> -->
-        <div class="userInfro">
+      <div class="userInfro">
           <ul>
             <li><span>网站：<strong>包图网</strong></span><span>类型：<strong>{{userInfoDatas.btwType}}</strong></span><span>已使用：<strong>{{userInfoDatas.btwNums}}次</strong></span><span>到期时间：<strong>{{userInfoDatas.btwDeadline}}</strong></span></li>
           </ul>
         </div>
-        <el-input v-model="downInput" class="fl el-input"   placeholder="请输入下载链接"></el-input>  <el-button class="fl"  @click="getDownInfo" :loading="false"  type="primary">点击下载</el-button>
+        <el-input v-model="downInput" class="fl el-input"  style="width:600px;height:50px"  placeholder="请输入下载链接"></el-input>  <el-button class="fl"  @click="getDownInfo" :loading="false"  type="primary">点击下载</el-button>
         </div>
         <div class="downInfo-wrap" v-if="downInfo.title">
           <div class="download-wrap"><el-button @click="download"  :loading="false" type="success">VIP高速下载</el-button></div>
