@@ -1,4 +1,3 @@
-
 //   设置cookie
 export const setCookie = (name, value) => {
     var Days = 30;
@@ -26,4 +25,15 @@ export const delCookie = (name) => {
     var cval = getCookie(name);
     if (cval != null)
         document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
-} 
+}
+
+export const GMTToStr = (time) => {
+    let date = new Date(time)
+    let Str = date.getFullYear() + '-' +
+        (date.getMonth() + 1) + '-' +
+        date.getDate() + ' ' +
+        date.getHours() + ':' +
+        date.getMinutes() + ':' +
+        date.getSeconds()
+    return Str
+}

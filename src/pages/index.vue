@@ -5,7 +5,7 @@
         <div class="downInput">
       <div class="userInfro">
           <ul>
-            <li><span>网站：<strong>包图网</strong></span><span>类型：<strong>{{userInfoDatas.btwType}}</strong></span><span>已使用：<strong>{{userInfoDatas.btwNums}}次</strong></span><span>到期时间：<strong>{{userInfoDatas.btwDeadline}}</strong></span></li>
+            <li><span>网站：<strong>包图网</strong></span><span>类型：<strong>{{vipType}}</strong></span><span>已使用：<strong>{{userInfoDatas.btwNums}}次</strong></span><span>到期时间：<strong>{{GMTToStr(userInfoDatas.btwDeadline)}}</strong></span></li>
           </ul>
         </div>
         <el-input v-model="downInput" class="fl el-input"  style="width:600px;height:50px"  placeholder="请输入下载链接"></el-input>  <el-button class="fl"  @click="getDownInfo" :loading="false"  type="primary">点击下载</el-button>
@@ -20,9 +20,7 @@
 <script>
 import myMenu from "@/components/myMenu";
 import {userInfo,btwDownInfo,btwDownLoad} from "@/api/index"
-import {getCookie} from "@/untils/untils"
-  // import Particle from 'zhihu-particle';
-   
+import {getCookie,GMTToStr} from "@/untils/untils"
 export default {
   data() {
     return {
@@ -34,6 +32,20 @@ export default {
       userInfoDatas:{},
       webId:'',
     };
+  },
+  computed:{
+    vipType(){
+      switch (this.userInfoDatas.btwType) {
+        case 'c':
+          return '初级'
+          break;
+        case 'z':
+          return '中级'
+          break;
+        default:
+          break;
+      }
+    }
   },
   components: { myMenu },
   mounted() {
@@ -113,18 +125,12 @@ export default {
       }
     },
       openFullScreen() {
-        const loading = this.$loading({
-          lock: true,
-          text: 'Loading',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
+       this.fullscreenLoading = true;
         setTimeout(() => {
-          loading.close();
+          this.fullscreenLoading = false;
         }, 1000);
       }
     }
-  
 };
 </script>
 <style scoped>
