@@ -5,7 +5,8 @@
         <div class="downInput">
       <div class="userInfro">
           <ul>
-            <li><span>网站：<strong>包图网</strong></span><span>类型：<strong>{{vipType}}</strong></span><span>已使用：<strong>{{userInfoDatas.btwNums}}次</strong></span><span>到期时间：<strong>{{GMTToStr(userInfoDatas.btwDeadline)}}</strong></span></li>
+            <li v-if="userInfoDatas.btw==1"><span>网站：<strong>包图网</strong></span><span></span><span>已使用：<strong>{{userInfoDatas.btwNums}}/共{{btwType}}</strong></span><span>到期时间：<strong>{{vipDeadline('btw')}}</strong></span></li>
+            <li v-if="userInfoDatas.qkw==1"><span>网站：<strong>千库网</strong></span><span></span><span>已使用：<strong>{{userInfoDatas.qkwNums}}/共{{userInfoDatas.qkwType}}</strong></span><span>到期时间：<strong>{{vipDeadline('qkw')}}</strong></span></li>
           </ul>
         </div>
         <el-input v-model="downInput" class="fl el-input"  style="width:600px;height:50px"  placeholder="请输入下载链接"></el-input>  <el-button class="fl"  @click="getDownInfo" :loading="false"  type="primary">点击下载</el-button>
@@ -19,28 +20,30 @@
 </template>
 <script>
 import myMenu from "@/components/myMenu";
-import {userInfo,btwDownInfo,btwDownLoad} from "@/api/index"
-import {getCookie,GMTToStr} from "@/untils/untils"
+import { userInfo, DownInfo, DownLoad } from "@/api/index";
+import { getCookie, GMTToStr } from "@/untils/untils";
+
 export default {
   data() {
     return {
       data: "1231",
       downInput: "",
-      downInfo:{
-        title:''
+      downInfo: {
+        title: ""
       },
-      userInfoDatas:{},
-      webId:'',
+      fullscreenLoading: false,
+      userInfoDatas: {},
+      webId: ""
     };
   },
-  computed:{
-    vipType(){
+  computed: {
+    btwType() {
       switch (this.userInfoDatas.btwType) {
-        case 'c':
-          return '初级'
+        case "c":
+          return "5";
           break;
-        case 'z':
-          return '中级'
+        case "z":
+          return "10";
           break;
         default:
           break;
@@ -49,115 +52,149 @@ export default {
   },
   components: { myMenu },
   mounted() {
-    this.isLogin()
+    this.isLogin();
   },
-
-  methods:{
-    download(){
-      this.openFullScreen()
-      let params = {
-        'webId':this.webId
+  methods: {
+    vipDeadline(webType) {
+      if (webType == "btw") {
+        return GMTToStr(this.userInfoDatas.btwDeadline);
+      } else if (webType == "qkw") {
+        return GMTToStr(this.userInfoDatas.qkwDeadline);
       }
+    },
+    _download(downUrl) {
+      let params = {
+        downUrl: downUrl
+      };
+      DownInfo(params).then(res => {
+        if (res.code == 200) {
+          console.log(res.data.title);
+          this.downInfo.title = res.data.title;
+        } else if (res.code == "300") {
+          this.$message.error("你输入的网站暂不支持！");
+        } else if (res.code == "401") {
+          this.$message.error("未查询到该素材！");
+        } else if (res.code == "500") {
+          this.$message.error("查询下载素材信息-系统错误!");
+        }
+      });
+    },
+    download() {
+      this.openFullScreen();
+      let params = {
+        webId: this.webId
+      };
       console.log(params);
-      btwDownLoad(params).then(res=>{
+      btwDownLoad(params).then(res => {
         // console.log(res);
-        if(res.code==100)
-        {
+        if (res.code == 100) {
           window.location.href = res.data;
+        } else {
+          this.$message.error("下载失败，请稍后再试！");
         }
-        else{
-            this.$message.error("下载失败，请稍后再试！");
-        }
-      })
+      });
     },
-    getDownInfo(){
-      
+    getDownInfo() {
       var downUrl = this.downInput;
-      let reg = /(ibaotu|588ku).com/g
-      if(reg.test(downUrl))
-      {
-        this.openFullScreen();
-          this.webId = this.getWebId(downUrl);
-          let params ={
-            'webId': this.getWebId(downUrl)
+      let reg = /(ibaotu|588ku).com/g;
+      if (reg.test(downUrl)) {
+        let webType = this.getwebType(downUrl);
+        if (webType == "ibaotu") {
+          if (this.userInfoDatas.btw == 1) {
+            this._download(downUrl);
+          } else {
+            this.$message.error("你未开通包图网");
           }
-          btwDownInfo(params).then(res =>{
-
-            this.downInfo.title = res.data.title;
-
-          })
-      }
-      else{
-          this.$message.error("抱歉你输入的网站暂不支持！");
+        } else if (webType == "588ku") {
+          if (this.userInfoDatas.qkw == 1) {
+            this._download(downUrl);
+          } else {
+            this.$message.error("你未开通千库网");
+          }
+        }
+        // this.webId = this.getWebId(downUrl);
+      } else {
+        this.$message.error("你输入的网站暂不支持！");
       }
     },
-    getWebId(downUrl){
-      let startIndex = downUrl.lastIndexOf('/')+1;
-      let endIndex = downUrl.lastIndexOf('.');
-      return downUrl.substring(startIndex,endIndex)
-      
+    getWebId(downUrl) {
+      let startIndex = downUrl.lastIndexOf("/") + 1;
+      let endIndex = downUrl.lastIndexOf(".");
+      return downUrl.substring(startIndex, endIndex);
     },
-    isLogin(){
-      let token =  getCookie("token");
-      // console.log(token);
+    checkVip(){
+      if(this.userInfoDatas.btw==1)
+      {}
+    },
+    getwebType(downUrl) {
+      let webType = downUrl.substring(
+        downUrl.indexOf("//") + 2,
+        downUrl.indexOf(".")
+      );
+      console.log(webType);
+      return webType;
+    },
+    isLogin() {
+      let token = getCookie("token");
       var that = this;
-      if(token)
-      {
-      let params = {
-        'token':getCookie('token')
-      }
-      userInfo(params).then(res=>{
-        //  console.log(res,'返回的用户数据');
-        if(res.code === 100)
-        {
-          that.userInfoDatas = res.data;
-          console.log(this.userInfoDatas,'返回的用户数据');
-        }
-        else{
-          this.$router.push('/login')
-        }
-      }).catch(err=>{
-       this.$router.push('/login')
-      })
-      }
-      else{
-        this.$router.push('/login')
+      if (token) {
+        let params = {
+          token: getCookie("token")
+        };
+        userInfo(params)
+          .then(res => {
+            console.log(res, "返回用户数据");
+            if (res.total == 1 && res.code == 200) {
+              that.userInfoDatas = res.rows[0];
+              console.log(that.userInfoDatas, "200返回的用户数据");
+            } else {
+              this.$router.push("/login");
+            }
+          })
+          .catch(err => {
+            this.$router.push("/login");
+          });
+      } else {
+        this.$router.push("/login");
       }
     },
-      openFullScreen() {
-       this.fullscreenLoading = true;
-        setTimeout(() => {
-          this.fullscreenLoading = false;
-        }, 1000);
-      }
+    openFullScreen() {
+      this.fullscreenLoading = true;
+      setTimeout(() => {
+        this.fullscreenLoading = false;
+      }, 1000);
     }
+  }
 };
 </script>
 <style scoped>
-.download-wrap{
+.title {
+  color: #fff;
+}
+.download-wrap {
   text-align: left;
 }
-.downInfo-wrap{
+.downInfo-wrap {
   text-align: left;
 }
-.userInfro ul li span{
+.userInfro ul li span {
   margin-right: 20px;
   font-size: 14px;
   color: #fff;
 }
-.userInfro ul li{
+.userInfro ul li {
   text-align: left;
   color: #fff;
   margin-bottom: 10px;
 }
-.menu ul{
+.menu ul {
   width: 1000px;
 }
-.index-content{
+.index-content {
   height: 100%;
   width: 1000px;
 
-  margin: 61PX auto;
+  margin: 61px auto;
 }
 .downInput {
   margin-top: 40px;
