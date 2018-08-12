@@ -6,7 +6,7 @@
             <el-input v-model="password" type='password' class="password" placeholder="请输入密码"></el-input>
             <el-button type="primary" class="login-btn" @click="login" style="width:100%">登录</el-button>
             <br>
-            <el-button style="width:100%">注册</el-button>
+            <!-- <el-button style="width:100%">注册</el-button> -->
         </div>
     </div>
 </template>
@@ -53,9 +53,12 @@ export default {
 <style scoped>
 .login-content {
   width: 400px;
-  margin: 100px auto 0;
+  margin: 200px auto 0;
 }
-
+.login-content h2{
+  text-align: center;
+  color: #ffffff;
+}
 .account,
 .password,
 .login-btn {

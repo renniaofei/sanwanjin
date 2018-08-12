@@ -1,5 +1,5 @@
 <template>
-    <div class="index"  ref="index">
+    <div class="index"    ref="index">
         <my-menu :userInfoDatas='userInfoDatas'></my-menu>
         <div class="index-content">
         <div class="downInput">
@@ -9,10 +9,10 @@
             <li v-if="userInfoDatas.qkw==1"><span>网站：<strong>千库网</strong></span><span></span><span>已使用：<strong>{{userInfoDatas.qkwNums}}/共{{userInfoDatas.qkwType}}</strong></span><span>到期时间：<strong>{{vipDeadline('qkw')}}</strong></span></li>
           </ul>
         </div>
-        <el-input v-model="downInput" class="fl el-input"  style="width:600px;height:50px"  placeholder="请输入下载链接"></el-input>  <el-button class="fl"  @click="getDownInfo" :loading="false"  type="primary">点击下载</el-button>
+        <el-input v-model="downInput" class="fl el-input"  style="width:600px;height:50px"  placeholder="请输入下载链接"></el-input>  <el-button class="fl"  @click="getDownInfo"  type="primary">点击下载</el-button>
         </div>
         <div class="downInfo-wrap" v-if="downInfo.title">
-          <div class="download-wrap"><el-button @click="download"  :loading="false" type="success">VIP高速下载</el-button></div>
+          <div class="download-wrap"><el-button @click="download"  :fullscreenLoading="false" type="success">VIP高速下载</el-button></div>
          <p class="title"><span>标题：</span>{{downInfo.title}}</p> 
           </div>
         </div>
@@ -22,7 +22,6 @@
 import myMenu from "@/components/myMenu";
 import { userInfo, DownInfo, DownLoad } from "@/api/index";
 import { getCookie, GMTToStr } from "@/untils/untils";
-
 export default {
   data() {
     return {
@@ -31,11 +30,12 @@ export default {
       downInfo: {
         title: ""
       },
-      fullscreenLoading: false,
+      
       userInfoDatas: {},
       webId: ""
     };
   },
+  
   computed: {
     btwType() {
       switch (this.userInfoDatas.btwType) {
@@ -52,6 +52,7 @@ export default {
   },
   components: { myMenu },
   mounted() {
+    
     this.isLogin();
   },
   methods: {
@@ -67,8 +68,9 @@ export default {
         downUrl: downUrl
       };
       DownInfo(params).then(res => {
+    
         if (res.code == 200) {
-          console.log(res.data.title);
+          // console.log(res.data.title);
           this.downInfo.title = res.data.title;
         } else if (res.code == "300") {
           this.$message.error("你输入的网站暂不支持！");
@@ -95,6 +97,7 @@ export default {
       });
     },
     getDownInfo() {
+        this.fullscreenLoading = true;
       var downUrl = this.downInput;
       let reg = /(ibaotu|588ku).com/g;
       if (reg.test(downUrl)) {
@@ -143,6 +146,7 @@ export default {
         };
         userInfo(params)
           .then(res => {
+            // this.isLogin = false;
             console.log(res, "返回用户数据");
             if (res.total == 1 && res.code == 200) {
               that.userInfoDatas = res.rows[0];

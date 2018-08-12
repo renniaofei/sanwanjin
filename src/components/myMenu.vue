@@ -2,10 +2,10 @@
   <div class="myMenu clearfix">
     <ul class="clearfix">
       <li>首页</li>
-      <li>帮助</li>
-      <li>购买</li>
-      <li>邀请</li>
-      <li>客服</li>
+      <li @click="helper">帮助</li>
+      <li @click="buy">购买</li>
+      <!-- <li>邀请</li> -->
+      <li @click="openKefu">客服</li>
     </ul>
      <div class="userName ">
     <span class="">
@@ -24,7 +24,7 @@ export default {
     return {
       activeIndex: "1",
       activeIndex2: "1",
-
+      weixinKefu:require('../pages/img/weixin.jpg')
     };
   },
   mounted() {
@@ -47,6 +47,19 @@ export default {
       delCookie('token');
       this.$router.push('/login')
     },
+       openKefu() {
+        this.$alert(' <img style="width:200px;height:200px" src='+this.weixinKefu+'/>', '客服微信', {
+          dangerouslyUseHTMLString: true
+        });
+      },
+      buy(){
+        window.open("https://shop68949178.taobao.com/shop/view_shop.htm?spm=a1z09.1.category.d53.44543606Q6MXTo&mytmenu=mdianpu&user_number_id=692494543","_blank");         
+
+      },
+       helper(){
+        window.open('https://shimo.im/doc/0ythof1lhH0Qu9Rj','_blank')
+        // this.$router.push("https://shimo.im/doc/0ythof1lhH0Qu9Rj")
+      },
   }
 };
 </script>
