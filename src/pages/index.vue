@@ -22,6 +22,7 @@
 import myMenu from "@/components/myMenu";
 import { userInfo, DownInfo, DownLoad } from "@/api/index";
 import { getCookie, GMTToStr } from "@/untils/untils";
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -52,7 +53,7 @@ export default {
   },
   components: { myMenu },
   mounted() {
-    
+    moment().format();
     this.isLogin();
   },
   methods: {
