@@ -12,7 +12,7 @@
         <el-input v-model="downInput" class="fl el-input"  style="width:600px;height:50px"  placeholder="请输入下载链接"></el-input>  <el-button class="fl"  @click="getDownInfo"  type="primary">点击下载</el-button>
         </div>
         <div class="downInfo-wrap" v-if="downInfo.title">
-          <div class="download-wrap"><el-button @click="download"  :fullscreenLoading="false" type="success">VIP高速下载</el-button></div>
+          <div class="download-wrap"><el-button @click="toDownload"  :fullscreenLoading="false" type="success">VIP高速下载</el-button></div>
          <p class="title"><span>标题：</span>{{downInfo.title}}</p> 
           </div>
         </div>
@@ -22,7 +22,7 @@
 import myMenu from "@/components/myMenu";
 import { userInfo, DownInfo, DownLoad } from "@/api/index";
 import { getCookie, GMTToStr } from "@/untils/untils";
-import moment from 'moment'
+
 export default {
   data() {
     return {
@@ -31,7 +31,6 @@ export default {
       downInfo: {
         title: ""
       },
-      
       userInfoDatas: {},
       webId: ""
     };
@@ -53,15 +52,17 @@ export default {
   },
   components: { myMenu },
   mounted() {
-    moment().format();
+    // moment().format();
+ 
     this.isLogin();
   },
   methods: {
     vipDeadline(webType) {
       if (webType == "btw") {
-        return GMTToStr(this.userInfoDatas.btwDeadline);
+        return this.$moment(this.userInfoDatas.btwDeadline).format("YYYY-MM-DD") 
+        
       } else if (webType == "qkw") {
-        return GMTToStr(this.userInfoDatas.qkwDeadline);
+          return this.$moment(this.userInfoDatas.btwDeadline).format("YYYY-MM-DD") 
       }
     },
     _download(downUrl) {
@@ -82,13 +83,13 @@ export default {
         }
       });
     },
-    download() {
+    toDownload() {
       this.openFullScreen();
       let params = {
         webId: this.webId
       };
       console.log(params);
-      btwDownLoad(params).then(res => {
+      DownLoad(params).then(res => {
         // console.log(res);
         if (res.code == 100) {
           window.location.href = res.data;
@@ -98,22 +99,29 @@ export default {
       });
     },
     getDownInfo() {
-        this.fullscreenLoading = true;
+      this.fullscreenLoading = true;
       var downUrl = this.downInput;
       let reg = /(ibaotu|588ku).com/g;
       if (reg.test(downUrl)) {
         let webType = this.getwebType(downUrl);
         if (webType == "ibaotu") {
-          if (this.userInfoDatas.btw == 1) {
-            this._download(downUrl);
-          } else {
-            this.$message.error("你未开通包图网");
+          if(this.checkVip('btw'))
+          {
+             this._download(downUrl);
           }
+          else
+          {
+            this.$message.error("未开通包图网或已到期");
+          }
+      
         } else if (webType == "588ku") {
-          if (this.userInfoDatas.qkw == 1) {
-            this._download(downUrl);
-          } else {
-            this.$message.error("你未开通千库网");
+          if(this.checkVip('qkw'))
+          {
+             this._download(downUrl);
+          }
+          else
+          {
+            this.$message.error("未开通千库网或已到期");
           }
         }
         // this.webId = this.getWebId(downUrl);
@@ -126,9 +134,22 @@ export default {
       let endIndex = downUrl.lastIndexOf(".");
       return downUrl.substring(startIndex, endIndex);
     },
-    checkVip(){
-      if(this.userInfoDatas.btw==1)
-      {}
+    checkVip(webType){
+      var nowDate = this.$moment(new Date()).format('YYYY-MM-DD');
+      var typeDeadline = webType+'Deadline'
+      var Deadline = this.$moment(this.userInfoDatas[typeDeadline]).format('YYYY-MM-DD');
+      console.log(this.userInfoDatas[typeDeadline])
+      console.log(Deadline)
+      var webDeadline = this.$moment(nowDate).isBefore(Deadline)
+      console.log('webtype',this.userInfoDatas[webType])
+      console.log(webDeadline)
+      if(this.userInfoDatas[webType]==1&&webDeadline)
+      {
+        return true
+      }
+      else{
+        return false
+      }
     },
     getwebType(downUrl) {
       let webType = downUrl.substring(
@@ -151,6 +172,7 @@ export default {
             console.log(res, "返回用户数据");
             if (res.total == 1 && res.code == 200) {
               that.userInfoDatas = res.rows[0];
+            
               console.log(that.userInfoDatas, "200返回的用户数据");
             } else {
               this.$router.push("/login");
