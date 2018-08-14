@@ -59,10 +59,9 @@ export default {
   methods: {
     vipDeadline(webType) {
       if (webType == "btw") {
-        return this.$moment(this.userInfoDatas.btwDeadline).format("YYYY-MM-DD") 
-        
+        return this.$moment(this.userInfoDatas.btwDeadline).format("YYYY-MM-DD HH-mm-SS") 
       } else if (webType == "qkw") {
-          return this.$moment(this.userInfoDatas.btwDeadline).format("YYYY-MM-DD") 
+          return this.$moment(this.userInfoDatas.qkwDeadline).format("YYYY-MM-DD HH-mm-SS") 
       }
     },
     _download(downUrl) {

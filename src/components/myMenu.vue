@@ -79,6 +79,7 @@ export default {
   float: left;
   margin-right: 30px;
   color: #fff;
+  /* font-size: 14px; */
   cursor: pointer;
 }
 .myMenu ul{
@@ -86,7 +87,7 @@ export default {
 }
 .logout{
   margin-left: 5px;
-  color:red;
+  color:floralwhite;
 }
 .userName{
   float: right;

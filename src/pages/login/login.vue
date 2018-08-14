@@ -3,8 +3,8 @@
         <div class="login-content">
             <h2>三万金-登录</h2>
             <el-input v-model="account" class="account" placeholder="请输入账号"></el-input>
-            <el-input v-model="password" type='password' class="password" placeholder="请输入密码"></el-input>
-            <el-button type="primary" class="login-btn" @click="login" style="width:100%">登录</el-button>
+            <el-input v-model="password" type='password' class="password" placeholder="请输入密码"   @keyup.enter.native="login"></el-input>
+            <el-button type="primary" class="login-btn" @click="login" style="width:100%" >登录</el-button>
             <br>
             <!-- <el-button style="width:100%">注册</el-button> -->
         </div>
@@ -51,6 +51,13 @@ export default {
 </script>
 
 <style scoped>
+.login{
+  height: 100%;
+  width: 100%; 
+  background: url(../img/main-bg.png) no-repeat 50%;
+    background-size: cover;
+    overflow: hidden;
+}
 .login-content {
   width: 400px;
   margin: 200px auto 0;
